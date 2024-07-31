@@ -1,0 +1,32 @@
+
+import hashFunction from "../util/hashFunction.js"
+import { set, ref, get } from "firebase/database"
+import db from '../config/connection.js'
+
+const register = async (req, res, next) => {
+    const { username, password } = req.body
+    try {
+        const userRef = ref(db, 'users/' + username);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+            res.status(400)
+            throw new Error("username aleardy exits")
+        }
+        const hashPassword = hashFunction.generateHash(password)
+        set(ref(db, 'users/' + username), {
+            username: username,
+            password: hashPassword,
+            create_time: new Date().getTime()
+        })
+        res.status(200).json({
+            RespCode: 200,
+            RespMessage: 'test'
+        })
+    }
+    catch (err) {
+        next(err)
+    }
+
+}
+export  { register }
