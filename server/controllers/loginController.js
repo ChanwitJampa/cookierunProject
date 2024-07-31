@@ -2,30 +2,34 @@ import Hash from '../util/hashFunction.js'
 import { ref, get } from "firebase/database"
 import db from '../config/connection.js'
 
-const login = (req,res,next) =>{
-    const {username,password } = req.body;
+const login = (req, res, next) => {
+    const { username, password } = req.body;
 
 
     try {
-        get(ref(db, 'users/'+username)).then((snapshot) => {
+        if (username === null || username === "")
+            throw new Error("username require")
+        if (password === null || password === "")
+            throw new Error("password require")
+        get(ref(db, 'users/' + username)).then((snapshot) => {
             console.log(snapshot.val())
-            if(snapshot.exists()){
-                console.log(`found user : ${username}  password is : ${snapshot.val().password }`)
-                if( Hash.compareHash(snapshot.val().password,password) ){
+            if (snapshot.exists()) {
+                console.log(`found user : ${username}  password is : ${snapshot.val().password}`)
+                if (Hash.compareHash(snapshot.val().password, password)) {
                     return res.status(200).json({
-                        RespCode:200,
-                        RespMessage:'login success',
+                        RespCode: 200,
+                        RespMessage: 'login success',
                     })
-                }else{
+                } else {
                     return res.status(200).json({
-                        RespCode:500,
-                        RespMessage:"incorrect password"
+                        RespCode: 500,
+                        RespMessage: "invalid username or password"
                     })
                 }
-            }else{
+            } else {
                 return res.status(200).json({
-                    RespCode:500,
-                    RespMessage:"invalid username or password"
+                    RespCode: 500,
+                    RespMessage: "invalid username or password"
                 })
             }
         }).catch((err2) => {

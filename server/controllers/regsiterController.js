@@ -6,6 +6,10 @@ import db from '../config/connection.js'
 const register = async (req, res, next) => {
     const { username, password } = req.body
     try {
+        if (username === null || username ==="")
+            throw new Error("username require")
+        if (password === null || password ==="")
+            throw new Error("password require")
         const userRef = ref(db, 'users/' + username);
         const snapshot = await get(userRef);
 
