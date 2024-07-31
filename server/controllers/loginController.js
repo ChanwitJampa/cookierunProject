@@ -1,6 +1,7 @@
 import Hash from '../util/hashFunction.js'
 import { ref, get } from "firebase/database"
 import db from '../config/connection.js'
+import jwt from 'jsonwebtoken'
 
 const login = (req, res, next) => {
     const { username, password } = req.body;
@@ -16,9 +17,15 @@ const login = (req, res, next) => {
             if (snapshot.exists()) {
                 console.log(`found user : ${username}  password is : ${snapshot.val().password}`)
                 if (Hash.compareHash(snapshot.val().password, password)) {
+                    const token = jwt.sign(
+                        { username: username },
+                        process.env.TOKEN_KEY, {
+                        expiresIn: "24h"
+                    })
                     return res.status(200).json({
                         RespCode: 200,
                         RespMessage: 'login success',
+                        token:token
                     })
                 } else {
                     return res.status(200).json({

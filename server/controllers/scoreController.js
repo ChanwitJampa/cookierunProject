@@ -1,5 +1,5 @@
 
-import { ref, get,set, update, query, orderByChild, limitToLast} from "firebase/database"
+import { ref, get, set, update, query, orderByChild, limitToLast } from "firebase/database"
 import db from '../config/connection.js'
 
 const createUserScore = async (req, res, next) => {
@@ -12,8 +12,8 @@ const createUserScore = async (req, res, next) => {
             throw new Error("score require")
         let snapshot = await get(ref(db, 'scores/' + username))
         if (snapshot.exists()) {
-            console.log(`username score exits ${snapshot.val().score}`)
-            console.log(`${snapshot.val().score}`)
+            // console.log(`username score exits ${snapshot.val().score}`)
+            // console.log(`${snapshot.val().score}`)
             if (snapshot.val().score < score) {
                 //update score
                 var dataUpdate = {};
@@ -26,10 +26,8 @@ const createUserScore = async (req, res, next) => {
                 })
 
             } else {
-                res.status(200).json({
-                    RespCode: 200,
-                    RespMessage: 'score less than userhave dont update'
-                })
+                res.status(409)
+                throw new Error("score less than userhave dont update")
             }
         }
         else { // not have any score let's create
@@ -71,8 +69,9 @@ const getTopScores = async (req, res, next) => {
                 RespCode: 200,
                 RespMessage: topScores
             })
-            console.log(topScores);
+
         } else {
+            res.status(404)
             throw new Error("No data available")
         }
     }
