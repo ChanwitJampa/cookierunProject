@@ -68,8 +68,7 @@ const getTopScores = async (req, res, next) => {
             });
             topScores.reverse();
             return res.status(200).json({
-                RespCode: 200,
-                RespMessage: topScores
+                topScores
             })
 
         } else {
