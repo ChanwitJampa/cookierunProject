@@ -8,10 +8,14 @@ const login = async(req, res, next) => {
 
 
     try {
-        if (username === null || username === "")
+        if (username === null || username === ""){
+            res.status(400)
             throw new Error("username require")
-        if (password === null || password === "")
+        }
+        if (password === null || password === ""){
+            res.status(400)
             throw new Error("password require")
+        }
         const snapshot = await  get(ref(db, 'users/' + username))
         // console.log(snapshot.val())
         if (snapshot.exists()) {
