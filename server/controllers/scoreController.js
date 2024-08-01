@@ -26,8 +26,10 @@ const createUserScore = async (req, res, next) => {
                 })
 
             } else {
-                res.status(409)
-                throw new Error("score less than userhave dont update")
+                res.status(200).json({
+                    RespCode: 200,
+                    RespMessage: 'update score success '
+                })
             }
         }
         else { // not have any score let's create
