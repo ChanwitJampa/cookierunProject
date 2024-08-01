@@ -25,7 +25,8 @@ const login = async(req, res, next) => {
                 return res.status(200).json({
                     RespCode: 200,
                     RespMessage: 'login success',
-                    token: token
+                    token: token,
+                    token_type:"Bearer"
                 })
             } else {
                 res.status(400)
