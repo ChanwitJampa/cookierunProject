@@ -9,7 +9,8 @@ import ScoreRoute from './routes/scoreRoute.js'
 
 import errorHandler from './middleware/errorMiddleware.js'
 import auth from './middleware/auth.js'
-
+//เพื่อให้รับ contrct3.netได้
+import cors from 'cors';
 import dotenv from 'dotenv';
 
 // เรียกใช้เพื่อโหลดตัวแปรจาก .env เข้าไปใน process.env
@@ -19,9 +20,14 @@ var app2 = express()
 app2.use(bodyParser.json())
 app2.use(bodyParser.urlencoded({ extended: true }))
 
+app2.use(cors({
+    origin: 'https://preview.construct.net' 
+}));
+
+
 app2.use('/api/register', ResgisterRoute)
 app2.use('/api/login', LoginRoute)
-app2.use('/api/score', auth,ScoreRoute)
+app2.use('/api/score', auth, ScoreRoute)
 app2.use(errorHandler)
 app2.listen(3000, console.log('server is running on port 3000'))
 
