@@ -20,14 +20,14 @@ var app2 = express()
 app2.use(bodyParser.json())
 app2.use(bodyParser.urlencoded({ extended: true }))
 
-// app2.use(cors({
-//     origin: ['https://preview.construct.net',]
-// }));
-app2.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app2.use(cors({
+    origin: 'https://preview.construct.net',
+}));
+// app2.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
 
 app2.use('/api/register', ResgisterRoute)
