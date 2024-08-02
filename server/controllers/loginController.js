@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 const login = async(req, res, next) => {
     const { username, password } = req.body;
 
-
+    console.log(username+ " " + password)
     try {
         if (username === null || username === ""){
             res.status(400)

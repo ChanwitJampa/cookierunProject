@@ -3,7 +3,9 @@ import { ref, get, set, update, query, orderByChild, limitToLast } from "firebas
 import db from '../config/connection.js'
 
 const createUserScore = async (req, res, next) => {
+    console.log("createUserScore function called"); // Log here
     const { username, score } = req.body
+    console.log("Received payload:", { username, score }); // Log here
 
     try {
         if (username === null || username === "")
