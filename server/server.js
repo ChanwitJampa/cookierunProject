@@ -21,7 +21,7 @@ app2.use(bodyParser.json())
 app2.use(bodyParser.urlencoded({ extended: true }))
 
 app2.use(cors({
-    origin: 'https://preview.construct.net',
+    origin: ['https://preview.construct.net','https://construct-arcade.com']
 }));
 // app2.use((req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", "*");
