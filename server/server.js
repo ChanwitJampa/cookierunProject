@@ -19,11 +19,15 @@ dotenv.config();
 var app2 = express()
 app2.use(bodyParser.json())
 app2.use(bodyParser.urlencoded({ extended: true }))
-
-app2.use(cors({
-    origin: 'https://preview.construct.net' 
-}));
-
+const allowedOrigins = ['https://preview.construct.net', 'https://construct-arcade.com'];
+app2.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+    }
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 app2.use('/api/register', ResgisterRoute)
 app2.use('/api/login', LoginRoute)
