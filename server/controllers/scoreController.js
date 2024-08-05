@@ -80,7 +80,7 @@ const getHistoryByuser= async (req,res,next)=>{
                 create_time: timestampToBangkokDate(childSnapshot.val().create_time)
             });
         });
-        history.reverse();
+        history.sort((a, b) => b.score - a.score); 
         return res.status(200).json({
             RespCode: 200,
             RespMessage: history
