@@ -98,7 +98,7 @@ const getHistoryByuser= async (req,res,next)=>{
 }
 
 const getTopScores = async (req, res, next) => {
-    const scoresRef = ref(db, 'history');
+    const scoresRef = ref(db, 'scores');
     try {
         const topScoresQuery = query(scoresRef, orderByChild('score'), limitToLast(10));
         const snapshot = await get(topScoresQuery);
