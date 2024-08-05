@@ -69,7 +69,7 @@ const getHistoryByuser= async (req,res,next)=>{
     if( username =="" || username==null)
         throw new Error("username require")
 
-    const historyQuery = query(scoreRef, orderByChild('create_time'), limitToLast(10));
+    const historyQuery = query(scoreRef, orderByChild('score'), limitToLast(10));
     const snapshot = await get(historyQuery);
     if (snapshot.exists()) {
         const history = [];
