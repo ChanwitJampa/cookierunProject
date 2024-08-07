@@ -3,12 +3,22 @@ import { ref, get } from "firebase/database"
 import db from '../config/connection.js'
 import jwt from 'jsonwebtoken'
 
+const hasSpecialCharacters = (str) => {
+    const specialCharsRegex = /[^a-zA-Z0-9]/g; 
+    return specialCharsRegex.test(str);
+};
+
+
 const login = async(req, res, next) => {
     const { username, password } = req.body;
-
+    
     console.log(username+ " " + password)
     try {
-        if (username === null || username === ""){
+        if( hasSpecialCharacters(username)){
+            res.status(400)
+            throw new Error("not contain special alphabbet")
+        }
+        if (username === null || username === "" ){
             res.status(400)
             throw new Error("username require")
         }
